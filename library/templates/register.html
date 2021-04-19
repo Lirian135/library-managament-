@@ -1,0 +1,11 @@
+{% import "bootstrap/wtf.html" as wtf %}
+
+<form action="/register" method="POST">
+
+    {{ form.hidden_tag() }}
+    {{ wtf.form_field(form.username) }}
+    {{ wtf.form_field(form.email) }}
+    {{ wtf.form_field(form.password) }}
+
+    <button type="submit">Sign up</button>
+</form>

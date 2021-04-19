@@ -1,10 +1,10 @@
 from flask import Flask, redirect, render_template, flash, url_for
 from flask_login import LoginManager, login_user, login_required, logout_user, current_user
 
-from structapp import app
-from structapp import db
-from structapp.forms import *
-from structapp.models import *
+from library import app
+from library import db
+from library.forms import *
+from library.models import *
 
 
 
@@ -16,6 +16,9 @@ def home():
 @app.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
+    
+    if current_user.is_authenticated:
+        return redirect(url_for("dashboard"))
     
     if form.validate_on_submit():
         student = Students.query.filter_by(username= form.username.data).first()
@@ -34,7 +37,10 @@ def logout():
 
 @app.route('/register', methods=['POST', 'GET'])
 def register():
-    form = RegisterForm()#fddf
+    form = RegisterForm()
+    
+    if current_user.is_authenticated:
+        return redirect(url_for("dashboard"))
     
     if form.validate_on_submit():
         hashed_password = generate_password_hash(form.password.data, method='sha256')

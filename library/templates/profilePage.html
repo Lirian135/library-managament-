@@ -1,0 +1,12 @@
+{% if user %}
+
+<title>{{user.username}}'s profile page</title>
+
+<h1>{{user.username}}</h1>
+
+{% elif not user %}
+
+<title>User not found</title>
+
+<h1>User not found</h1>
+{% endif %}
