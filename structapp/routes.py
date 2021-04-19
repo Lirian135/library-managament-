@@ -11,7 +11,7 @@ from structapp.models import *
 @app.route('/')
 @app.route('/index')
 def home():
-    return 'Home '
+    return 'Home'
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -57,8 +57,6 @@ def dashboard():
 def users(username):
     
     user = Students.query.filter_by(username=username).first()
-    if not user:
-        return 'User does not exist'
     
     return render_template('profilePage.html', user=user)
     
