@@ -21,10 +21,5 @@ class Students(UserMixin, db.Model):
     email = db.Column(db.String(64), unique=True)
     password_hash = db.Column(db.String(50))
     #d
-    
-    
-    
-    
 
-    
     

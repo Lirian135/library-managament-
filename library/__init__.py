@@ -20,10 +20,3 @@ login.login_view = 'login'
 bootstrap = Bootstrap(app)
 
 from library import routes
-
-#a
-
-
-    
-
-    
