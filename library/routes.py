@@ -73,6 +73,7 @@ def users(username):
     
 
 @app.route('/add', methods=["POST"])
+@login_required
 def add_book():
     
     form = BookForm()
