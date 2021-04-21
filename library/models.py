@@ -1,9 +1,11 @@
-from library import db, login
+from library import db, login, app
 
 from werkzeug.security import generate_password_hash, check_password_hash
 
 from flask_login import UserMixin
 
+from flask_admin import Admin
+from flask_admin.contrib.sqla import ModelView
 
 @login.user_loader
 def load_user(id):
@@ -11,8 +13,10 @@ def load_user(id):
 
 class Books(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    author = db.Column(db.String)
     title = db.Column(db.String)
     description = db.Column(db.String)
+    
     
 
 class Students(UserMixin, db.Model):
@@ -20,6 +24,11 @@ class Students(UserMixin, db.Model):
     username = db.Column(db.String(20), unique=True)
     email = db.Column(db.String(64), unique=True)
     password_hash = db.Column(db.String(50))
-    #d
 
+    
+
+admin = Admin(app, name='library', template_mode='bootstrap3')
+admin.add_view(ModelView(Students, db.session))
+admin.add_view(ModelView(Books, db.session))
+    
     

@@ -56,7 +56,12 @@ def register():
 @app.route('/dashboard')
 @login_required
 def dashboard():
-    return render_template('dashboard.html', name=current_user.username)
+    
+    form = BookForm()
+    
+    books = Books.query.order_by(Books.id).all()    
+    
+    return render_template('dashboard.html', name=current_user.username, form=form, books=books)
 
 @app.route('/user/<username>') #
 
@@ -67,4 +72,15 @@ def users(username):
     return render_template('profilePage.html', user=user)
     
 
+@app.route('/add', methods=["POST"])
+def add_book():
+    
+    form = BookForm()
+    
+    if form.validate_on_submit:
+        book = Books(author=current_user.username, title=form.title.data, description=form.description.data)
+        db.session.add(book)
+        db.session.commit()
+        
+    return redirect(url_for('dashboard'))
     

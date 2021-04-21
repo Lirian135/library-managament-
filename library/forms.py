@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField
+from wtforms import StringField, PasswordField, BooleanField, TextAreaField
 from wtforms.validators import InputRequired, Email, Length, email_validator
 
 
@@ -15,5 +15,9 @@ class RegisterForm(FlaskForm):
     password = PasswordField('password', validators=[InputRequired(), Length(min=8, max=50)])
     
 
-#forms#fddfddf
-
+class BookForm(FlaskForm):
+    book_author = StringField('book_author',validators=[InputRequired(), Length(min=3, max=25)] )
+    title = StringField('title',validators=[InputRequired(), Length(min=3, max=25)])
+    description = TextAreaField('textarea', validators=[InputRequired(), Length(min=25, max=250)])
+    
+    
