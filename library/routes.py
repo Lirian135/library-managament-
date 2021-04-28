@@ -69,7 +69,9 @@ def users(username):
     
     user = Students.query.filter_by(username=username).first()
     
-    return render_template('profilePage.html', user=user)
+    user_posts = Books.query.filter_by(author=username).all()
+    
+    return render_template('profilePage.html', user=user, user_posts=user_posts)
     
 
 @app.route('/add', methods=["POST"])
@@ -84,4 +86,9 @@ def add_book():
         db.session.commit()
         
     return redirect(url_for('dashboard'))
+
+@app.route('/addcomment', methods=['POST'])
+@login_required
+def add_comment():
+    pass
     
