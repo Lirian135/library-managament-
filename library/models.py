@@ -16,6 +16,7 @@ class Books(db.Model):
     author = db.Column(db.String)
     title = db.Column(db.String)
     description = db.Column(db.String)
+    comments = db.relationship('Comments', backref='book')
     
     
 
@@ -24,11 +25,17 @@ class Students(UserMixin, db.Model):
     username = db.Column(db.String(20), unique=True)
     email = db.Column(db.String(64), unique=True)
     password_hash = db.Column(db.String(50))
-
+    
+class Comments(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    comment_text = db.Column(db.String)
+    perent = db.Column(db.Integer, db.ForeignKey('books.id'))
+        
     
 
 admin = Admin(app, name='library', template_mode='bootstrap3')
 admin.add_view(ModelView(Students, db.session))
 admin.add_view(ModelView(Books, db.session))
+admin.add_view(ModelView(Comments, db.session))
     
     
