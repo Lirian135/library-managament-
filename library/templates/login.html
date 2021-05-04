@@ -10,14 +10,13 @@
 </head>
 <body>
     
-<form action="/login" method="POST" >
+<form action="" method="POST" >
     {{ form.hidden_tag() }}
     {{ wtf.form_field(form.username) }}
     {{ wtf.form_field(form.password) }}
-    {{ wtf.form_field(form.remember_me) }}
+    
 
-    <button type="submit">Log in</button>
-
+    {{ form.submit () }}
 </form>
 
 </body>
