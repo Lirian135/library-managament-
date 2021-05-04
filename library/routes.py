@@ -24,7 +24,7 @@ def login():
         student = Students.query.filter_by(username= form.username.data).first()
         if student:
             if check_password_hash(student.password_hash, form.password.data):
-                login_user(student, remember=form.remember_me.data)
+                login_user(student)
                 return redirect(url_for('dashboard'))
 
     return render_template('login.html', form=form)
@@ -64,7 +64,6 @@ def dashboard():
     return render_template('dashboard.html', name=current_user.username, form=form, books=books)
 
 @app.route('/user/<username>') #
-
 def users(username):
     
     user = Students.query.filter_by(username=username).first()
@@ -73,8 +72,7 @@ def users(username):
     
     return render_template('profilePage.html', user=user, user_posts=user_posts)
     
-
-@app.route('/add', methods=["POST"])
+@app.route('/add', methods=["GET", "POST"])
 @login_required
 def add_book():
     
@@ -87,8 +85,19 @@ def add_book():
         
     return redirect(url_for('dashboard'))
 
-@app.route('/addcomment', methods=['POST'])
+@app.route('/status/<int:id>', methods=['GET', 'POST'])
 @login_required
-def add_comment():
-    pass
+def status(id):
+    form = CommentForm()
+    bookview = Books.query.filter_by(id=id).first()
+    comments = Comments.query.filter_by(book=bookview)
     
+    if form.validate_on_submit():
+        comment = Comments(comment_text=form.comment_text.data, book=bookview)
+        db.session.add(comment)
+        db.session.commit()
+        
+        return redirect(f'/status/{id}')
+    
+    
+    return render_template('post.html', bookview=bookview, form=form, comments=comments)
