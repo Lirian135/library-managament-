@@ -1,0 +1,35 @@
+{% import "bootstrap/wtf.html" as wtf %}
+
+
+{% if bookview %}
+
+<h1>{{ bookview.title }}</h1>
+<p>{{ bookview.description }}</p>
+<h3>By: {{ bookview.author }}</h3>
+
+<h1>Comments: </h1>
+
+    {% for comment in comments %}
+
+    <h2>{{ comment.comment_text }}</h2>
+
+    {% endfor %}
+
+
+<form action="" method="POST">
+    {{ form.csrf_token }}
+    {{ form.hidden_tag() }}
+    {{ wtf.form_field(form.comment_text) }}
+    
+
+    {{ form.submit () }}
+
+</form>
+
+{% elif not bookview %}
+
+<h1>Book not found</h1>
+
+{% endif %}
+
+
